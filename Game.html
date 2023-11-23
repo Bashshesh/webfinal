@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Shop - Interactive Game</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@600&family=Inter:wght@200;300&family=Kodchasan:wght@600&family=Syncopate&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #FAEBD7;
+        }
+        .container {
+            margin-top: 100px;
+        }
+
+        .nav-link {
+            font-family: 'Kodchasan', sans-serif;
+            margin-right: 40px;
+            margin-left: 20px;
+            font-size: 20px;
+        }
+        .navbar {
+            position: absolute;
+            top: 0px;
+            width: 100%;
+        }
+
+        .navbar-brand {
+            font-size: 27px;
+            font-family: 'Kodchasan', sans-serif;
+            margin-left: 50px;
+        }
+        .container {
+            margin-bottom: 50px;
+        }
+        .card {
+            margin-bottom: 100px;
+        }
+
+        .btn:hover {
+            background-color: #FFF8DC;
+            color: black;
+            transform: scale(1.1);
+            transition: transform 0.3s;
+        }
+        .col-md-6 {
+            text-align: left;
+            font-family: 'Kodchasan', sans-serif;
+            font-size: 70px;
+            margin-top: 100px;
+        }
+
+        .puzzle-container {
+            margin-left: 180px;
+            background-color: #FFF;
+            padding: 20px;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            text-align: center;
+            width: 800px;
+            height:500px;
+        }
+
+        .puzzle-piece {
+            background-color: #007BFF;
+            color: #FFF;
+            padding: 20px;
+            border: 1px solid #0056b3;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+
+        }
+
+        .puzzle-dropzone {
+            background-color: #F0AD4E;
+            color: #FFF;
+            padding: 40px;
+            border: 2px dashed #B85C00;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .win-message {
+            font-size: 24px;
+            color: green;
+            display: none;
+        }
+
+        .lose-message {
+            font-size: 24px;
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div
+    class="modal fade"
+    id="chatModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Order</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="form-group mt-4">
+          <label for="emailInput">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="emailInput"
+            placeholder="Enter email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="phoneInput">Phone number</label>
+          <input
+            type="tel"
+            class="form-control"
+            id="phoneInput"
+            placeholder="Enter phone number"
+          />
+        </div>
+
+        <ul class="list-group">
+          <li class="list-group-item">
+            <input
+              class="form-check-input me-1"
+              type="checkbox"
+              value=""
+              id="firstCheckbox"
+            />
+            <label class="form-check-label" for="firstCheckbox"
+              >Service problems</label
+            >
+          </li>
+          <li class="list-group-item">
+            <input
+              class="form-check-input me-1"
+              type="checkbox"
+              value=""
+              id="secondCheckbox"
+            />
+            <label class="form-check-label" for="secondCheckbox"
+              >Website problem</label
+            >
+          </li>
+          <li class="list-group-item">
+            <input
+              class="form-check-input me-1"
+              type="checkbox"
+              value=""
+              id="thirdCheckbox"
+            />
+            <label class="form-check-label" for="thirdCheckbox"
+              >Other problem</label
+            >
+          </li>
+        </ul>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Order</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="productName">Выберите продукт:</label>
+              <select class="form-control" id="productName">
+                <option>Capuchino</option>
+                <option>Americano</option>
+                <option>Classic</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Cound:</label>
+              <input
+                type="number"
+                class="form-control"
+                id="quantity"
+                placeholder="Введите количество"
+              />
+            </div>
+            <div class="form-group">
+              <label for="comments">Comments:</label>
+              <textarea
+                class="form-control"
+                id="comments"
+                rows="3"
+                placeholder="Введите комментарии"
+              ></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <header id="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="CoffeeShop.html">Coffee Shop</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="CoffeeShop.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Menu.html">Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="AboutUs.html">About Us</a>
+          </li>
+        </ul>
+      </div>
+      <div class="dropdown" style="margin-right: 70px">
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Services
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Delivery</a></li>
+          <li><a class="dropdown-item" href="#">Cooperation</a></li>
+          <li><a class="dropdown-item" href="#">Establishment map</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+<section class="container">
+    <h1 style="text-align:center; font-family: 'Kodchasan', sans-serif; margin-bottom:50px;" >Interactive Puzzle Game</h1>
+    <div class="row" style="margin-bottom:400px;">
+            <div class="puzzle-container">
+                <p>List types of coffee at the lowest prices:</p>
+                <div class="puzzle-dropzone" id="dropzone1"></div>
+                <div class="puzzle-dropzone" id="dropzone2"></div>
+                <div class="puzzle-dropzone" id="dropzone3"></div><br>
+                <div class="puzzle-piece" id="piece1" draggable="true" data-order="1">Caramel Macchiato</div>
+                <div class="puzzle-piece" id="piece2" draggable="true" data-order="2">Mocha</div>
+                <div class="puzzle-piece" id="piece3" draggable="true" data-order="3">Iced Latte</div>
+                <div class="win-message">You win! Puzzle is solved.</div>
+                <div class="lose-message">You lose! Incorrect order.</div>
+            </div>
+
+    </div>
+</section>
+
+<footer class="container-fluid bg-light text-center pt-4 pb-4">
+    <p style="font-family: 'Kodchasan', sans-serif;">&copy; 2023 Coffee Shop</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    const puzzlePieces = document.querySelectorAll('.puzzle-piece');
+    const dropzones = document.querySelectorAll('.puzzle-dropzone');
+    const winMessage = document.querySelector('.win-message');
+    const loseMessage = document.querySelector('.lose-message');
+
+    puzzlePieces.forEach(piece => {
+        piece.addEventListener('dragstart', dragStart);
+        piece.addEventListener('dragend', dragEnd);
+    });
+
+    dropzones.forEach(dropzone => {
+        dropzone.addEventListener('dragover', dragOver);
+        dropzone.addEventListener('dragenter', dragEnter);
+        dropzone.addEventListener('dragleave', dragLeave);
+        dropzone.addEventListener('drop', dragDrop);d
+    });
+
+    function dragStart() {
+        this.classList.add('dragging');
+    }
+
+    function dragEnd() {
+        this.classList.remove('dragging');
+        checkOrder();
+    }
+
+    function dragOver(e) {
+        e.preventDefault();
+    }
+
+    function dragEnter(e) {
+        e.preventDefault();
+        this.classList.add('hovered');
+    }
+
+    function dragLeave() {
+        this.classList.remove('hovered');
+    }
+
+    function dragDrop() {
+        this.classList.remove('hovered');
+        const piece = document.querySelector('.dragging');
+        this.appendChild(piece);
+    }
+
+    function checkOrder() {
+        const orderedPieces = Array.from(document.querySelectorAll('.puzzle-dropzone')).map(dropzone => dropzone.querySelector('.puzzle-piece').getAttribute('data-order'));
+        const isCorrectOrder = orderedPieces.every((order, index) => parseInt(order) === index + 1);
+
+        if (isCorrectOrder) {
+            winMessage.style.display = 'block';
+            loseMessage.style.display = 'none';
+        } else {
+            winMessage.style.display = 'none';
+            loseMessage.style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>
